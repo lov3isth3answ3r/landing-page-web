@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Love Is The Answer - Coming Soon. Spreading love, one moment at a time.">
+    <meta name="keywords" content="love, community, coming soon, LITA">
+    <meta name="author" content="Love Is The Answer">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Love Is The Answer - Coming Soon">
+    <meta property="og:description" content="We're working on something special. Be the first to know when we launch!">
+    <meta property="og:image" content="assets/LITA-logo.svg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Love Is The Answer - Coming Soon">
+    <meta property="twitter:description" content="We're working on something special. Be the first to know when we launch!">
+    
+    <title>Love Is The Answer - Coming Soon</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/LITA-logo.svg">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Logo 
+        <div class="logo-container">
+            <img src="assets/LITA-logo.svg" alt="Love Is The Answer Logo" class="logo">
+        </div>
+    -->        
+        <!-- Main Heading -->
+        <h1>Love Is The Answer</h1>
+        
+        <!-- Tagline -->
+        <p class="tagline">Spreading love, one moment at a time</p>
+
+        <!-- Video -->
+        <div class="video-container">
+            <video class="main-video" autoplay loop muted playsinline>
+                <source src="assets/LITA-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- Coming Soon Badge -->
+        <div class="coming-soon">Coming Soon</div>
+        
+        <!-- Description -->
+        <p class="description">
+            We're working on something special. Be the first to know when we launch!
+        </p>
+        
+        <!-- Email Notification Form -->
+        <form id="notifyForm" class="notify-form">
+            <input 
+                type="email" 
+                id="emailInput"
+                class="email-input" 
+                placeholder="Enter your email address" 
+                required
+                aria-label="Email address"
+                autocomplete="email"
+            >
+            <button type="submit" class="notify-btn">Notify Me</button>
+        </form>
+        
+        <!-- Success Message -->
+        <div id="successMessage" class="success-message"></div>
+        
+        <!-- Social Links -->
+        <div class="social-links">
+            <a href="https://instagram.com/LOVEistheANSW3R" 
+               class="social-link" 
+               aria-label="Follow us on Instagram"
+               target="_blank"
+               rel="noopener noreferrer"
+               onclick="trackSocialClick('Instagram')">📷</a>
+<!--
+            <a href="https://twitter.com/loveistheanswer" 
+               class="social-link" 
+               aria-label="Follow us on Twitter"
+               target="_blank"
+               rel="noopener noreferrer"
+               onclick="trackSocialClick('Twitter')">🐦</a>
+            <a href="https://facebook.com/loveistheanswer" 
+               class="social-link" 
+               aria-label="Follow us on Facebook"
+               target="_blank"
+               rel="noopener noreferrer"
+               onclick="trackSocialClick('Facebook')">👤</a>
+-->
+
+               <a href="mailto:hello@loveistheanswer.to" 
+               class="social-link" 
+               aria-label="Email us"
+               onclick="trackSocialClick('Email')">✉️</a>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2026 NUNIVERSE.NET. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>

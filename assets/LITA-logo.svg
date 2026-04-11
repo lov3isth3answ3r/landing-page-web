@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f093fb;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="200" cy="200" r="180" fill="url(#heartGradient)" opacity="0.1"/>
+  
+  <!-- Heart Shape -->
+  <path d="M200,330 C200,330 80,250 80,180 C80,140 110,110 150,110 C170,110 190,120 200,140 C210,120 230,110 250,110 C290,110 320,140 320,180 C320,250 200,330 200,330 Z" 
+        fill="url(#heartGradient)" 
+        filter="url(#shadow)"/>
+  
+  <!-- LITA Text -->
+  <text x="200" y="380" 
+        font-family="Arial, sans-serif" 
+        font-size="48" 
+        font-weight="bold" 
+        text-anchor="middle" 
+        fill="#764ba2">LITA</text>
+  
+  <!-- Sparkles -->
+  <circle cx="120" cy="140" r="4" fill="#f093fb" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="280" cy="140" r="4" fill="#667eea" opacity="0.8">
+    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="200" cy="100" r="3" fill="#764ba2" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+</svg>

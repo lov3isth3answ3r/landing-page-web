@@ -182,7 +182,14 @@ h1 {
     color: #7be5a0;
     text-align: center;
     min-height: 1.4rem;
+}
+
+.success-message.is-visible {
     animation: slideIn 0.3s ease-out;
+}
+
+.success-message.is-error {
+    color: var(--primary-color);
 }
 
 /* Social Links */

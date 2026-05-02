@@ -1,34 +1,22 @@
-// Main JavaScript for LITA Coming Soon Page
-
 document.addEventListener('DOMContentLoaded', function() {
     initializeVideo();
     initializeAnimations();
+    initializeForm();
 });
 
-/**
- * Initialize video element
- */
 function initializeVideo() {
     const video = document.querySelector('.main-video');
-    
-    if (video) {
-        // Ensure video plays on mobile devices
-        video.play().catch(error => {
-            console.log('Autoplay prevented:', error);
-            // Add a play button overlay if autoplay fails
-            addPlayButton(video);
-        });
-    }
+    if (!video) return;
+
+    video.play().catch(() => {
+        addPlayButton(video);
+    });
 }
 
-/**
- * Add play button if autoplay is prevented
- * @param {HTMLVideoElement} video - Video element
- */
 function addPlayButton(video) {
-    const playButton = document.createElement('button');
-    playButton.textContent = '▶ Play';
-    playButton.style.cssText = `
+    const btn = document.createElement('button');
+    btn.textContent = '▶ Play';
+    btn.style.cssText = `
         position: absolute;
         top: 50%;
         left: 50%;
@@ -42,50 +30,58 @@ function addPlayButton(video) {
         cursor: pointer;
         z-index: 10;
     `;
-    
-    playButton.addEventListener('click', function() {
+    btn.addEventListener('click', function() {
         video.play();
         this.remove();
     });
-    
     video.parentElement.style.position = 'relative';
-    video.parentElement.appendChild(playButton);
+    video.parentElement.appendChild(btn);
 }
 
-/**
- * Initialize page animations and interactions
- */
 function initializeAnimations() {
-    // Add hover effects to social links
     const socialLinks = document.querySelectorAll('.social-link');
     socialLinks.forEach(link => {
         link.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-3px) rotate(5deg)';
         });
-        
         link.addEventListener('mouseleave', function() {
             this.style.transform = '';
         });
     });
-
-    // Add parallax effect to logo on scroll (if page scrolls)
-    const logo = document.querySelector('.logo');
-    if (logo) {
-        window.addEventListener('scroll', function() {
-            const scrolled = window.pageYOffset;
-            logo.style.transform = `translateY(${scrolled * 0.1}px)`;
-        });
-    }
 }
 
-/**
- * Handle social link clicks
- * @param {string} platform - Social media platform name
- */
+function initializeForm() {
+    const form = document.getElementById('notifyForm');
+    if (!form) return;
+
+    form.addEventListener('submit', handleFormSubmit);
+}
+
+function handleFormSubmit(e) {
+    e.preventDefault();
+    const email = document.getElementById('emailInput').value.trim();
+    const successMsg = document.getElementById('successMessage');
+    const btn = document.querySelector('.notify-btn');
+
+    if (!email) return;
+
+    // Mailto fallback — replace this with your email API (Mailchimp, Formspree, etc.)
+    window.location.href = `mailto:hello@loveistheanswer.to?subject=Notify%20Me&body=Please%20notify%20me%20at%3A%20${encodeURIComponent(email)}`;
+
+    btn.disabled = true;
+    btn.textContent = 'Thanks!';
+    successMsg.textContent = "You're on the list. We'll be in touch soon. ❤️";
+    document.getElementById('emailInput').value = '';
+
+    setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = 'Notify Me';
+    }, 4000);
+}
+
 function trackSocialClick(platform) {
     console.log(`Social link clicked: ${platform}`);
-    // Add analytics tracking here
+    // Wire up analytics here (e.g. gtag, plausible)
 }
 
-// Expose function for inline onclick if needed
 window.trackSocialClick = trackSocialClick;

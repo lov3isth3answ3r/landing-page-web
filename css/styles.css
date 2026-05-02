@@ -18,7 +18,7 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
-    color: var(--text-dark);
+    color: var(--text-light);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -26,65 +26,151 @@ body {
     background: #000000;
     padding: 0;
     margin: 0;
-    overflow: hidden;
 }
 
 /* Main Container */
 .container {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    max-width: 960px;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 2rem 1rem 5rem;
     position: relative;
     animation: fadeInUp 0.8s ease-out;
+    gap: 0.75rem;
+}
+
+/* Heading */
+h1 {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 700;
+    color: var(--text-light);
+    text-align: center;
+    letter-spacing: -0.02em;
+}
+
+/* Taglines */
+.tagline {
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
+    font-weight: 500;
+}
+
+.sub-tagline {
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
 /* Video Container */
 .video-container {
     width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
+    margin: 0.5rem 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    padding: 0 1rem;
 }
 
 .main-video {
     width: 100%;
     height: auto;
-    max-height: 70vh;
+    max-height: 55vh;
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     object-fit: contain;
     animation: fadeInUp 1s ease-out;
 }
 
-/* Call to Action */
-.cta-container {
-    margin: 2rem 0;
-    animation: fadeInUp 1.2s ease-out;
+/* Coming Soon Badge */
+.coming-soon {
+    display: inline-block;
+    padding: 0.4rem 1.25rem;
+    background: var(--gradient);
+    color: var(--text-light);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 50px;
 }
 
-.email-link {
-    display: inline-block;
-    color: var(--text-light);
-    font-size: clamp(1rem, 2.5vw, 1.25rem);
-    font-weight: 500;
-    text-decoration: none;
-    padding: 1rem 2.5rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+/* Description */
+.description {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    max-width: 480px;
+}
+
+/* Email Notification Form */
+.notify-form {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 440px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.email-input {
+    flex: 1;
+    min-width: 220px;
+    padding: 0.75rem 1.25rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 50px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-light);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+    backdrop-filter: blur(10px);
+}
+
+.email-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.email-input:focus {
+    border-color: rgba(102, 126, 234, 0.8);
+}
+
+.notify-btn {
+    padding: 0.75rem 1.75rem;
+    background: var(--gradient);
+    color: var(--text-light);
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
     transition: all 0.3s ease;
+    white-space: nowrap;
     box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
 }
 
-.email-link:hover {
-    transform: translateY(-3px);
+.notify-btn:hover {
+    transform: translateY(-2px);
     box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.notify-btn:active {
+    transform: translateY(0);
+}
+
+/* Success Message */
+.success-message {
+    font-size: 0.95rem;
+    color: #7be5a0;
+    text-align: center;
+    min-height: 1.4rem;
+    animation: slideIn 0.3s ease-out;
 }
 
 /* Social Links */
@@ -93,7 +179,7 @@ body {
     gap: 1.5rem;
     justify-content: center;
     position: absolute;
-    bottom: 2rem;
+    bottom: 1.75rem;
     left: 50%;
     transform: translateX(-50%);
     animation: fadeInUp 1.4s ease-out;
@@ -116,11 +202,26 @@ body {
 }
 
 .social-link:hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient);
     color: var(--text-light);
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
     border-color: transparent;
+}
+
+/* Footer */
+.footer {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.footer p {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.3);
+    text-align: center;
 }
 
 /* Animations */
@@ -158,36 +259,37 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
     .video-container {
-        padding: 1rem;
+        padding: 0 0.5rem;
     }
 
     .main-video {
-        max-height: 60vh;
+        max-height: 45vh;
         border-radius: 15px;
     }
 
-    .email-link {
-        padding: 0.875rem 2rem;
-    }
-
     .social-links {
-        bottom: 1.5rem;
+        bottom: 1.25rem;
     }
 }
 
 @media (max-width: 480px) {
-    .video-container {
-        padding: 0.5rem;
+    .container {
+        gap: 0.5rem;
     }
 
     .main-video {
-        max-height: 50vh;
+        max-height: 38vh;
         border-radius: 10px;
     }
 
-    .email-link {
-        padding: 0.75rem 1.5rem;
-        font-size: 1rem;
+    .notify-form {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .email-input {
+        width: 100%;
+        min-width: unset;
     }
 
     .social-links {
@@ -219,10 +321,12 @@ body {
 @media print {
     body {
         background: white;
+        color: black;
     }
 
     .social-links,
-    .notify-form {
+    .notify-form,
+    .footer {
         display: none;
     }
 }

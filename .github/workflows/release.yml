@@ -1,0 +1,95 @@
+name: Build · Package · Release
+
+on:
+  push:
+    branches: [develop]
+    tags: ['v*.*.*']
+  pull_request:
+    branches: [develop]
+
+jobs:
+  # ── 1. Build: validate the static site ──────────────────────────────────
+  build:
+    name: Build & Validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Required files present
+        run: |
+          missing=0
+          for f in index.html css/styles.css js/main.js assets/LITA-logo.svg; do
+            if [ ! -f "$f" ]; then
+              echo "❌ Missing: $f"
+              missing=1
+            else
+              echo "✅ $f"
+            fi
+          done
+          [ $missing -eq 0 ] || exit 1
+
+      - name: Single HTML file (one-HTML-file rule)
+        run: |
+          count=$(find . -name "*.html" -not -path "./.git/*" | wc -l)
+          if [ "$count" -gt 1 ]; then
+            echo "❌ Multiple HTML files found — violates one-HTML-file rule:"
+            find . -name "*.html" -not -path "./.git/*"
+            exit 1
+          fi
+          echo "✅ Exactly one HTML file"
+
+      - name: No double-extension artifacts
+        run: |
+          hits=$(find . -name "*.html.*" -not -path "./.git/*")
+          if [ -n "$hits" ]; then
+            echo "❌ Stale double-extension files found:"
+            echo "$hits"
+            exit 1
+          fi
+          echo "✅ No double-extension files"
+
+  # ── 2. Package: zip the deployable site ─────────────────────────────────
+  package:
+    name: Package
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build zip
+        run: |
+          zip -r lita-site.zip index.html css/ js/ assets/ README.md
+          echo "📦 Package contents:"
+          unzip -l lita-site.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lita-site
+          path: lita-site.zip
+          retention-days: 30
+
+  # ── 3. Release: publish to GitHub Releases on version tag ────────────────
+  release:
+    name: Release
+    needs: package
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download package
+        uses: actions/download-artifact@v4
+        with:
+          name: lita-site
+
+      - name: Publish GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            --title "LITA ${{ github.ref_name }}" \
+            --generate-notes \
+            lita-site.zip

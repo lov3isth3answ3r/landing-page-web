@@ -22,10 +22,14 @@ landing-page-web/
 ├── css/
 │   └── styles.css      ← all styles, no preprocessor
 ├── js/
-│   └── main.js         ← vanilla JS: video init, animations, form handler
+│   └── main.js         ← vanilla JS: slideshow, animations, form handler
 ├── assets/
 │   ├── LITA-logo.svg   ← brand logo
-│   └── LITA-video.mp4  ← hero video (autoplay, loop, muted)
+│   ├── LITA-video.mp4  ← hero video (slide 1 of slideshow)
+│   └── *.webp          ← slideshow images
+├── .github/
+│   └── workflows/
+│       └── release.yml ← CI: build → package → GitHub Release
 ├── README.md
 └── CLAUDE.md           ← this file
 ```
@@ -89,6 +93,28 @@ Issues found and fixed:
 - **Test on mobile.** The page must look correct at 375px width. `overflow: hidden` on body must never be restored unless tested.
 - **Form submissions** must show feedback in `#successMessage`, never in an alert().
 - **Assets:** Keep video under 10MB. Optimize SVG logo — no raster images unless SVG is unavailable.
+
+---
+
+## GitFlow & CI/CD
+
+**Branch rules:**
+- `main` — stable/production only. Never push features directly here.
+- `develop` — integration branch. All features merge here first.
+- `feature/*` — branch from `develop`, merge back to `develop`.
+- To release: merge `develop` → `main`, then tag `vX.Y.Z`.
+
+**Release workflow** (`.github/workflows/release.yml`):
+- **Build** — runs on every push to `develop` and every PR targeting `develop`. Validates required files, enforces the one-HTML-file rule, rejects double-extension artifacts.
+- **Package** — zips `index.html`, `css/`, `js/`, `assets/`, `README.md` into `lita-site.zip` and uploads it as a CI artifact (30-day retention).
+- **Release** — triggers only on `v*.*.*` tags pushed to `main`. Creates a GitHub Release and attaches the zip.
+
+**To cut a release:**
+```bash
+git checkout main && git merge develop
+git tag v1.0.0
+git push origin main --tags
+```
 
 ---
 

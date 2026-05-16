@@ -6,6 +6,7 @@ const MEDIA_ITEMS = [
     { type: 'image', src: 'assets/xplore-beauty-cosmic-energy-breathtaking-d-render-where-hands-form-heart-shape-cradling-radiant-golden-blue-364432893.webp' },
 ];
 
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mvzleqeb';
 const HEART_EMOJIS = ['❤️', '🧡', '💛', '💚', '🩵', '💙', '💜'];
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -195,7 +196,7 @@ function initializeForm() {
     form.addEventListener('submit', handleFormSubmit);
 }
 
-function handleFormSubmit(e) {
+async function handleFormSubmit(e) {
     e.preventDefault();
     const email = document.getElementById('emailInput').value.trim();
     const successMsg = document.getElementById('successMessage');
@@ -209,10 +210,33 @@ function handleFormSubmit(e) {
     successMsg.innerHTML = 'You\'re on the list. We\'ll be in touch soon. <span class="love-heart">❤️</span>';
     document.getElementById('emailInput').value = '';
 
-    setTimeout(() => {
+        if (res.ok) {
+            document.getElementById('emailInput').value = '';
+            showMessage(successMsg, "You're on the list. We'll be in touch. ❤️", false);
+            btn.textContent = 'Thanks!';
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.textContent = 'Notify Me';
+            }, 4000);
+        } else {
+            const data = await res.json().catch(() => ({}));
+            throw new Error(data?.errors?.[0]?.message || 'Submission failed');
+        }
+    } catch {
+        showMessage(successMsg, 'Something went wrong — please try again.', true);
         btn.disabled = false;
         btn.textContent = 'Notify Me';
-    }, 4000);
+    }
+}
+
+function showMessage(el, text, isError) {
+    el.textContent = text;
+    el.className = 'success-message is-visible' + (isError ? ' is-error' : '');
+}
+
+function clearMessage(el) {
+    el.textContent = '';
+    el.className = 'success-message';
 }
 
 // ─── Floating Hearts Background ─────────────────────────────────────────────

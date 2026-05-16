@@ -5,27 +5,45 @@ A modern, responsive "coming soon" landing page for the Love Is The Answer brand
 ## 📁 Project Structure
 
 ```
-LITA/
-├── index.html          # Main HTML file
+landing-page-web/
+├── index.html          # Main HTML file (single entry point)
 ├── css/
-│   └── styles.css      # Stylesheet with all CSS
+│   └── styles.css      # All styles — no preprocessor
 ├── js/
-│   └── main.js         # JavaScript functionality
+│   └── main.js         # Vanilla JS: slideshow, animations, form handler
 ├── assets/
-│   ├── LITA-logo.svg   # Brand logo (SVG format)
-│   └── LITA-logo.jpg   # Brand logo (JPG format - add your own)
+│   ├── LITA-logo.svg          # Brand logo
+│   ├── LITA-video.mp4         # Hero video
+│   └── *.webp                 # Slideshow images
+├── CLAUDE.md           # Project source of truth
 └── README.md           # This file
 ```
 
 ## ✨ Features
 
-- **Responsive Design**: Works perfectly on all devices (mobile, tablet, desktop)
-- **Modern CSS**: Uses CSS Grid, Flexbox, custom properties, and animations
-- **Email Notification**: Form to collect emails from interested visitors
-- **Social Media Links**: Quick access to social platforms
+- **Responsive Design**: Works on all devices (375px → 1440px)
+- **Modern CSS**: Grid, Flexbox, custom properties, CSS animations
+- **Email Notification**: Form with mailto fallback; `#successMessage` ready for API integration
+- **Social Media Links**: Instagram + email, extensible
 - **Accessible**: ARIA labels, semantic HTML, keyboard navigation
-- **Performance**: Optimized assets, minimal dependencies
-- **Animated**: Smooth transitions and eye-catching animations
+- **Performance**: Zero external dependencies, no CDN, no build step
+- **Animated**: Smooth transitions, rainbow hearts, floating particles, typewriter, parallax
+
+## 🎬 Media Slideshow
+
+To add or remove slideshow items, edit the `MEDIA_ITEMS` array at the top of `js/main.js`:
+
+```js
+const MEDIA_ITEMS = [
+    { type: 'video', src: 'assets/my-clip.mp4' },
+    { type: 'image', src: 'assets/my-photo.jpg' },
+    // add as many as you like
+];
+```
+
+- **Videos** auto-advance when the clip ends (10s hard cap)
+- **Images** display for 6 seconds then fade to the next item
+- Dots and arrows appear automatically when there is more than one item
 
 ## 🎨 Design Highlights
 
@@ -77,13 +95,27 @@ Replace the simulated form submission in `js/main.js` with your actual API endpo
 
 This project is free to use and modify for your needs.
 
+## 🕰️ Recent Improvements
+
+### May 2026 — Brand Audit & Animation Update
+- Deleted stale draft file `index-simple-video1.html.html`
+- Fixed all CSS/HTML mismatches (orphaned classes removed, unstyled elements added)
+- Updated all brand copy to canonical values (taglines, CTA, social handles, footer)
+- Added `CLAUDE.md` as single source of truth for the project
+- Implemented email form handler with mailto fallback wired to `#successMessage`
+- Added rainbow-cycling pulsing hearts on every `L❤️VE` mention
+- Replaced single video with configurable PNG/MP4 slideshow (dots + arrows)
+- Added floating hearts background animation (ambient CSS particles)
+- Added typewriter reveal effect on sub-tagline
+- Added mouse-parallax depth effect on main card (desktop only)
+
 ## 💖 About Love Is The Answer
 
-Love Is The Answer is a brand dedicated to spreading love, one moment at a time.
+Love Is The Answer (LITA) is a brand dedicated to turning L❤️VE into action — Peace • Unity • Respect • Nature.
+
+- Instagram: [@LOVEistheANSW3R](https://instagram.com/LOVEistheANSW3R)
+- Email: hello@loveistheanswer.to
 
 ---
 
 **Built with ❤️ using HTML5, CSS3, and Vanilla JavaScript**
-# landing-page-web
-
-

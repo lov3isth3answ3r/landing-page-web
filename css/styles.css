@@ -28,6 +28,26 @@ body {
     margin: 0;
 }
 
+/* Floating hearts background layer */
+.hearts-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.floating-heart {
+    position: absolute;
+    bottom: -2rem;
+    animation: floatUp linear forwards;
+    user-select: none;
+    line-height: 1;
+}
+
 /* Main Container */
 .container {
     width: 100%;
@@ -39,7 +59,9 @@ body {
     align-items: center;
     padding: 2rem 1rem 5rem;
     position: relative;
+    z-index: 1;
     animation: fadeInUp 0.8s ease-out;
+    transition: transform 0.3s ease;
     gap: 0.75rem;
 }
 
@@ -80,24 +102,106 @@ h1 {
     text-transform: uppercase;
 }
 
-/* Video Container */
-.video-container {
-    width: 100%;
-    margin: 0.5rem 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 1rem;
+/* Rainbow pulsing heart */
+.love-heart {
+    display: inline-block;
+    animation: heartPulse 0.8s ease-in-out infinite;
+    cursor: default;
 }
 
-.main-video {
+/* Typewriter cursor */
+.typewriter-cursor {
+    animation: blink 1s step-end infinite;
+    font-weight: 300;
+    margin-left: 1px;
+}
+
+.typewriter-cursor.done {
+    opacity: 0;
+    transition: opacity 0.4s ease 0.8s;
+}
+
+/* Slideshow */
+.slideshow-container {
+    width: 100%;
+    margin: 0.5rem 0;
+    padding: 0 1rem;
+    animation: fadeInUp 1s ease-out;
+}
+
+.slides-track {
+    display: grid;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.slide {
+    grid-area: 1 / 1;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.slide-media {
     width: 100%;
     height: auto;
     max-height: 55vh;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     object-fit: contain;
-    animation: fadeInUp 1s ease-out;
+    display: block;
+}
+
+.slideshow-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 0.6rem;
+}
+
+.slideshow-dots {
+    display: flex;
+    gap: 0.45rem;
+}
+
+.slide-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.slide-dot.active {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.35);
+}
+
+.slide-arrow {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-light);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.3rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    backdrop-filter: blur(5px);
+}
+
+.slide-arrow:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
 
 /* Coming Soon Badge */
@@ -275,15 +379,40 @@ h1 {
     }
 }
 
+@keyframes heartPulse {
+    0%, 100% { transform: scale(1); }
+    50% {
+        transform: scale(1.35);
+        filter: drop-shadow(0 0 6px rgba(255, 100, 150, 0.7));
+    }
+}
+
+@keyframes floatUp {
+    0%   { transform: translateY(0) translateX(0); opacity: 0.22; }
+    15%  { opacity: 0.22; }
+    25%  { transform: translateY(-25vh) translateX(18px); }
+    50%  { transform: translateY(-50vh) translateX(-14px); }
+    75%  { transform: translateY(-75vh) translateX(22px); }
+    100% { transform: translateY(-110vh) translateX(-8px); opacity: 0; }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
-    .video-container {
+    .slideshow-container {
         padding: 0 0.5rem;
     }
 
-    .main-video {
-        max-height: 45vh;
+    .slides-track {
         border-radius: 15px;
+    }
+
+    .slide-media {
+        max-height: 45vh;
     }
 
     .social-links {
@@ -296,8 +425,11 @@ h1 {
         gap: 0.5rem;
     }
 
-    .main-video {
+    .slide-media {
         max-height: 38vh;
+    }
+
+    .slides-track {
         border-radius: 10px;
     }
 

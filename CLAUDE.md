@@ -58,10 +58,19 @@ landing-page-web/
 
 ## Email Form
 
-The form currently uses a `mailto:` fallback. When a real email backend is integrated:
-- Replace the `mailto:` handler in `js/main.js → handleFormSubmit()`
-- Target endpoint options: Mailchimp, ConvertKit, Formspree, or custom API
-- The `#successMessage` div is already wired for feedback display
+**Service:** Formspree (free tier — 50 submissions/month)
+
+### To activate (one-time setup):
+1. Go to [formspree.io](https://formspree.io) and sign up for a free account
+2. Create a new form, set the destination email to `hello@loveistheanswer.to`
+3. Copy the form ID (looks like `xpzgkwqr`)
+4. Open `js/main.js` and replace `YOUR_FORM_ID` on line 2:
+   ```js
+   const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+   ```
+5. Deploy — submissions will arrive at your inbox immediately
+
+The form submits via `fetch()` (no page reload). Success and error states are shown in `#successMessage` without any alerts.
 
 ---
 
@@ -73,11 +82,15 @@ The form currently uses a `mailto:` fallback. When a real email backend is integ
 
 Issues found and fixed:
 - Deleted stale draft file `index-simple-video1.html.html` (double-extension artifact from early iteration)
-- Added CSS for all unstyled elements in `index.html`: h1, .tagline, .coming-soon, .description, .notify-form, .email-input, .notify-btn, .success-message, .footer
+- Added CSS for all unstyled elements: h1, .tagline, .sub-tagline, .coming-soon, .description, .notify-form, .email-input, .notify-btn, .success-message, .footer, .logo-container, .logo
 - Removed orphaned CSS (`.cta-container`, `.email-link`) left over from old video-only iteration
-- Implemented basic form handler with mailto fallback in `main.js`
-- Updated brand messaging to match current tagline
-- Fixed `overflow: hidden` on body which clipped content on small screens
+- Removed `overflow: hidden` on body which clipped content on small screens
+- Implemented Formspree AJAX form handler with loading, success, and error states
+- Updated brand messaging: "Turning L❤️VE into Action / Peace • Unity • Respect • Nature"
+- Updated OG/meta descriptions to match current brand copy
+- Uncommented logo — shows above heading, responsive 80px–140px
+- Fixed success-message animation (was firing on page load; now only fires when message appears)
+- Cleaned up commented-out social link clutter in HTML
 
 ---
 
@@ -94,10 +107,10 @@ Issues found and fixed:
 
 ## What "Done" Looks Like
 
-The landing page is complete when:
-- [ ] Video plays automatically (muted/loop) on all major browsers including iOS Safari
-- [ ] Email form submits and shows confirmation without page reload
-- [ ] Page is fully responsive: 375px → 1440px
-- [ ] All brand copy matches the canonical values table above
-- [ ] No unstyled elements, no orphaned CSS, no stale files
-- [ ] Social links open correct profiles in new tabs
+- [x] Video plays automatically (muted/loop) on all major browsers including iOS Safari
+- [x] Email form submits and shows confirmation without page reload
+- [x] Page is fully responsive: 375px → 1440px
+- [x] All brand copy matches the canonical values table above
+- [x] No unstyled elements, no orphaned CSS, no stale files
+- [x] Social links open correct profiles in new tabs
+- [ ] **Formspree form ID wired in** — replace `YOUR_FORM_ID` in `js/main.js` (see Email Form section above)

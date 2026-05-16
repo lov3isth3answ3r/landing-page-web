@@ -1,3 +1,6 @@
+// Replace YOUR_FORM_ID after signing up free at formspree.io
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mvzleqeb';
+
 document.addEventListener('DOMContentLoaded', function() {
     initializeVideo();
     initializeAnimations();
@@ -44,7 +47,7 @@ function initializeAnimations() {
         link.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-3px) rotate(5deg)';
         });
-        link.addEventListener('mouseleave', function() {
+            link.addEventListener('mouseleave', function() {
             this.style.transform = '';
         });
     });
@@ -53,11 +56,10 @@ function initializeAnimations() {
 function initializeForm() {
     const form = document.getElementById('notifyForm');
     if (!form) return;
-
     form.addEventListener('submit', handleFormSubmit);
 }
 
-function handleFormSubmit(e) {
+async function handleFormSubmit(e) {
     e.preventDefault();
     const email = document.getElementById('emailInput').value.trim();
     const successMsg = document.getElementById('successMessage');
@@ -65,18 +67,47 @@ function handleFormSubmit(e) {
 
     if (!email) return;
 
-    // Mailto fallback — replace this with your email API (Mailchimp, Formspree, etc.)
-    window.location.href = `mailto:hello@loveistheanswer.to?subject=Notify%20Me&body=Please%20notify%20me%20at%3A%20${encodeURIComponent(email)}`;
-
+    clearMessage(successMsg);
     btn.disabled = true;
-    btn.textContent = 'Thanks!';
-    successMsg.textContent = "You're on the list. We'll be in touch soon. ❤️";
-    document.getElementById('emailInput').value = '';
+    btn.textContent = 'Sending…';
 
-    setTimeout(() => {
+    try {
+        const res = await fetch(FORMSPREE_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ email })
+        });
+
+        if (res.ok) {
+            document.getElementById('emailInput').value = '';
+            showMessage(successMsg, "You're on the list. We'll be in touch. ❤️", false);
+            btn.textContent = 'Thanks!';
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.textContent = 'Notify Me';
+            }, 4000);
+        } else {
+            const data = await res.json().catch(() => ({}));
+            throw new Error(data?.errors?.[0]?.message || 'Submission failed');
+        }
+    } catch {
+        showMessage(successMsg, 'Something went wrong — please try again.', true);
         btn.disabled = false;
         btn.textContent = 'Notify Me';
-    }, 4000);
+    }
+}
+
+function showMessage(el, text, isError) {
+    el.textContent = text;
+    el.className = 'success-message is-visible' + (isError ? ' is-error' : '');
+}
+
+function clearMessage(el) {
+    el.textContent = '';
+    el.className = 'success-message';
 }
 
 function trackSocialClick(platform) {

@@ -1,5 +1,5 @@
 // Replace YOUR_FORM_ID after signing up free at formspree.io
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mvzleqeb';
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeVideo();
@@ -47,7 +47,7 @@ function initializeAnimations() {
         link.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-3px) rotate(5deg)';
         });
-        link.addEventListener('mouseleave', function() {
+            link.addEventListener('mouseleave', function() {
             this.style.transform = '';
         });
     });

@@ -1,22 +1,27 @@
 # Love Is The Answer (LITA) - Coming Soon Landing Page
 
+**Live:** https://loveistheanswer.to
+
 A modern, responsive "coming soon" landing page for the Love Is The Answer brand.
 
 ## 📁 Project Structure
 
 ```
 landing-page-web/
-├── index.html          # Main HTML file (single entry point)
+├── index.html               # Main HTML file (single entry point)
 ├── css/
-│   └── styles.css      # All styles — no preprocessor
+│   └── styles.css           # All styles — no preprocessor
 ├── js/
-│   └── main.js         # Vanilla JS: slideshow, animations, form handler
+│   └── main.js              # Vanilla JS: slideshow, animations, form handler
 ├── assets/
-│   ├── LITA-logo.svg          # Brand logo
-│   ├── LITA-video.mp4         # Hero video
-│   └── *.webp                 # Slideshow images
-├── CLAUDE.md           # Project source of truth
-└── README.md           # This file
+│   ├── LITA-logo.svg        # Brand logo (SVG)
+│   ├── LITA-video.mp4       # Hero video (slide 1)
+│   └── *.webp               # Slideshow images
+├── .github/
+│   └── workflows/
+│       └── release.yml      # CI: build → package → GitHub Release
+├── CLAUDE.md                # Project source of truth
+└── README.md                # This file
 ```
 
 ## ✨ Features
@@ -47,19 +52,20 @@ const MEDIA_ITEMS = [
 
 ## 🎨 Design Highlights
 
-- Beautiful gradient backgrounds
-- Glass-morphism effects
-- Smooth animations and transitions
-- Custom logo with animated sparkles
-- Mobile-first responsive approach
-- Professional typography with fluid sizing
+- Dark gradient background with floating rainbow heart particles
+- Rainbow-cycling pulsing hearts on every L❤️VE mention
+- Configurable media slideshow (video + images) with cross-fade
+- Typewriter reveal on the sub-tagline
+- Mouse-parallax 3D tilt on the main card (desktop only)
+- Glassmorphism form + social links
+- Mobile-first, fluid typography (375px → 1440px)
 
 ## 🚀 Getting Started
 
-1. **Open the page**: Simply open `index.html` in any modern web browser
-2. **Customize**: Edit the content in `index.html` to match your needs
-3. **Add your logo**: Replace `assets/LITA-logo.jpg` with your actual logo
-4. **Deploy**: Upload all files to your web hosting service
+1. **Open the page**: Open `index.html` in any modern browser — no build step
+2. **Customize copy**: Edit `index.html` for brand text, social URLs, email address
+3. **Add media**: Drop files into `assets/` and update `MEDIA_ITEMS` in `js/main.js`
+4. **Deploy**: Upload all files to your hosting — the CI zip (`lita-site.zip`) is ready to upload
 
 ## 🛠️ Customization
 
@@ -90,6 +96,23 @@ Replace the simulated form submission in `js/main.js` with your actual API endpo
 - Safari (latest)
 - Edge (latest)
 - Mobile browsers (iOS Safari, Chrome Mobile)
+
+## ⚙️ CI/CD
+
+GitHub Actions (`.github/workflows/release.yml`) runs automatically:
+
+| Job | Trigger | What it does |
+|-----|---------|--------------|
+| **Build** | push to `develop`, PR → `develop` | Validates required files, one-HTML-file rule, no stale artifacts |
+| **Package** | after build passes | Creates `lita-site.zip` as a downloadable artifact (30-day retention) |
+| **Release** | `v*.*.*` tag on `main` | Publishes a GitHub Release with the zip attached |
+
+**To cut a release:**
+```bash
+git checkout main && git merge develop
+git tag v1.0.0
+git push origin main --tags
+```
 
 ## 📄 License
 

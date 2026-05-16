@@ -6,11 +6,12 @@ Single source of truth for this project. Update this file whenever decisions cha
 
 ## Project Overview
 
-**Brand:** Love Is The Answer (LITA) — #LoveIsThenAnswer
+**Brand:** Love Is The Answer (LITA) — #LoveIsTheAnswer
 **Tagline:** Turning L❤️VE into Action. Peace • Unity • Respect • Nature
+**Live URL:** https://loveistheanswer.to
 **Goal:** "Coming soon" landing page that collects interest and directs visitors to social channels before the full site launches.
 **Stack:** Pure static HTML/CSS/JS — no framework, no build tooling, intentionally minimal.
-**Deploy:** Upload all files to web hosting as-is. No build step needed.
+**Deploy:** Upload all files to web hosting as-is. No build step needed. CI packages a zip automatically.
 
 ---
 
@@ -52,7 +53,7 @@ landing-page-web/
 
 ## Architecture Decisions
 
-- **No framework.** Vanilla HTML/CSS/JS only. The page is one screen, one video, one form — no React needed.
+- **No framework.** Vanilla HTML/CSS/JS only. The page is one screen, a media slideshow, and a form — no React needed.
 - **No build tools.** No webpack, vite, npm scripts. Edit and deploy directly.
 - **Single HTML file.** `index.html` is the only entry point. Never add secondary HTML files without removing old ones.
 - **CSS custom properties** in `:root` for all brand colors. Never hardcode colors outside of `:root`.
@@ -70,6 +71,19 @@ The form currently uses a `mailto:` fallback. When a real email backend is integ
 ---
 
 ## Audit History
+
+### 2026-05-16 — Animation, Slideshow & CI Session
+
+Work completed on `feature/heart-pulsing` and `feature/ci-release`, both merged to `develop`:
+
+- Set up GitFlow light: `main` → `develop` → `feature/*` branch hierarchy
+- Wrapped every `❤️` in `.love-heart` spans; JS cycles rainbow emojis (❤️🧡💛💚🩵💙💜) at 400ms with CSS pulse/glow keyframe
+- Replaced single `<video>` with a configurable `MEDIA_ITEMS` slideshow — cross-fade, dot nav, prev/next arrows; videos advance on `ended`, images after 6s
+- Added floating hearts background: CSS-animated emoji particles continuously drift upward behind the card
+- Added typewriter reveal on "Peace • Unity • Respect • Nature" sub-tagline
+- Added mouse-parallax 3D tilt on main container (desktop/hover-capable only)
+- Added three-stage GitHub Actions CI: build validation → zip package artifact → GitHub Release on `v*.*.*` tag
+- Updated CLAUDE.md, README.md, and added HANDOFF.md
 
 ### 2026-05-02 — Project Restart Audit
 
@@ -121,9 +135,11 @@ git push origin main --tags
 ## What "Done" Looks Like
 
 The landing page is complete when:
-- [ ] Video plays automatically (muted/loop) on all major browsers including iOS Safari
+- [ ] Slideshow plays automatically (muted/loop) on all major browsers including iOS Safari
 - [ ] Email form submits and shows confirmation without page reload
-- [ ] Page is fully responsive: 375px → 1440px
-- [ ] All brand copy matches the canonical values table above
-- [ ] No unstyled elements, no orphaned CSS, no stale files
+- [x] Page is fully responsive: 375px → 1440px
+- [x] All brand copy matches the canonical values table above
+- [x] No unstyled elements, no orphaned CSS, no stale files
 - [ ] Social links open correct profiles in new tabs
+- [ ] CI passes clean on `develop` (build + package jobs green)
+- [ ] Real email backend wired up (replacing mailto fallback)
